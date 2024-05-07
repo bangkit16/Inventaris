@@ -3,25 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\BarangModel;
+use App\Models\TransaksiModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class BarangController extends Controller
+class BarangKeluarController extends Controller
 {
     //
     public function index()
     {
+        // dd(TransaksiModel::select('id_barang', 'id_user', 'barang_masuk', 'tgl_transaksi', 'status')->with('barang'));
         $breadcumb = (object) [
-            'title' => 'Daftar Barang',
-            'list' => ['Home', 'Barang']
+            'title' => 'Daftar Barang Keluar',
+            'list' => ['Home', 'Barang Keluar']
         ];
         $page = (object) [
-            'title' => 'Daftar Barang yang terdaftar dalam sistem'
+            'title' => 'Daftar Barang masuk di sistem'
         ];
-        // $kategori = KategoriModel::all();
+        $barang = BarangModel::all();
+        $user = UserModel::all();
 
-        $activeMenu = 'barang';
+        $activeMenu = 'barang_keluar';
         // Alert::alert('Title', 'Message', 'Type');
         // Alert::success('Toast Message', 'Toast Type');
 
@@ -30,25 +34,30 @@ class BarangController extends Controller
         // dd(BarangModel::all()->toArray());
         // dd($kategori);
 
-        return view('barang.index', ['breadcumb' => $breadcumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('barang_keluar.index', ['breadcumb' => $breadcumb, 'page' => $page,'barang' => $barang, 'user' => $user, 'activeMenu' => $activeMenu]);
     }
     public function list(Request $request)
     {
         // $users = BarangModel::all();
-        $barangs = BarangModel::select('id_barang', 'nama_barang', 'harga', 'stok');
+        $barangKeluars = TransaksiModel::select('id_barang', 'id_user', 'barang_keluar', 'tgl_transaksi', 'status')->with('barang')->with('user')->where('barang_masuk', null);
+        // ->where('barang_masuk', !null);
+
         // dd(BarangModel::all()->toJson());
-        // if ($request->kategori_id) {
-        //     $barangs->where('kategori_id', $request->kategori_id);
-        // }
+        if ($request->id_barang) {
+            $barangKeluars->where('id_barang', $request->id_barang);
+        }
+        if ($request->id_user) {
+            $barangKeluars->where('id_user', $request->id_user);
+        }
 
-        return DataTables::of($barangs)
+        return DataTables::of($barangKeluars)
             ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
-            ->addColumn('aksi', function ($barang) { // menambahkan kolom aksi
+            ->addColumn('aksi', function ($barangKeluar) { // menambahkan kolom aksi
 
-                $btn = '<a href="' . url('/barang/' . $barang->id_barang) . '" class="btn btn-info btn-sm">Detail</a> ';
-                $btn .= '<a href="' . url('/barang/' . $barang->id_barang . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
+                $btn = '<a href="' . url('/barang_keluar/' . $barangKeluar->id_transaksi) . '" class="btn btn-info btn-sm">Detail</a> ';
+                $btn .= '<a href="' . url('/barang_keluar/' . $barangKeluar->id_transaksi . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
                 $btn .= '<form class="d-inline-block" method="POST" action="' .
-                    url('/barang/' . $barang->id_barang) . '" id="deleteData">'
+                    url('/barang_keluar/' . $barangKeluar->id_transaksi) . '" id="deleteData">'
                     . csrf_field() . method_field('DELETE') .
                     '<button type="submit" class="btn btn-danger btn-sm" onclick="return deleteData()" data-confirm-delete="true">Hapus</button></form>';
                 return $btn;
@@ -64,12 +73,12 @@ class BarangController extends Controller
             'list' => ['Home', 'Barang', 'Tambah']
         ];
         $page = (object) [
-            'title' => 'Tambah barang baru'
+            'title' => 'Tambah Keluar Barang'
         ];
 
         // $kategori = KategoriModel::all();
 
-        $activeMenu = 'barang';
+        $activeMenu = 'barang_masuk';
 
         return view('barang.create', ['breadcumb' => $breadcumb, 'page' => $page,  'activeMenu' => $activeMenu]);
     }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class UserModel extends Authenticatable
@@ -14,8 +15,14 @@ class UserModel extends Authenticatable
 
     protected $fillable = [
         'nama',
-        'level_id',
+        'id_level',
         'username',
         'password',
+        'nip',
     ];
+
+    public function level(): BelongsTo
+    {
+        return $this->belongsTo(LevelModel::class, 'id_level', 'id_level');
+    }
 }

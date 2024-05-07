@@ -67,7 +67,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/user') }}" class="nav-link {{ $activeMenu == 'peminjam' ? 'active' : '' }}">
+                <a href="{{ url('/mahasiswa') }}" class="nav-link {{ $activeMenu == 'mahasiswa' ? 'active' : '' }}">
                     <i class="nav-icon far fa-users"></i>
                     <p>Data Peminjam</p>
                 </a>
@@ -80,39 +80,39 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/barang') }}" class="nav-link {{ $activeMenu == 'barang_masuk' ? 'active' : '' }} ">
+                <a href="{{ url('/barang_masuk') }}" class="nav-link {{ $activeMenu == 'barang_masuk' ? 'active' : '' }} ">
                     <i class="nav-icon far fa-box"></i>
                     <p>Barang Masuk</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/barang') }}" class="nav-link {{ $activeMenu == 'barang_keluar' ? 'active' : '' }} ">
+                <a href="{{ url('/barang_keluar') }}" class="nav-link {{ $activeMenu == 'barang_keluar' ? 'active' : '' }} ">
                     <i class="nav-icon far fa-box-open"></i>
                     <p>Barang Keluar</p>
                 </a>
             </li>
             <li class="nav-header">Data Transaksi</li>
             <li class="nav-item">
-                <a href="{{ url('/stok') }}" class="nav-link {{ $activeMenu == 'stok' ? 'active' : '' }} ">
+                <a href="{{ url('/peminjaman') }}" class="nav-link {{ $activeMenu == 'peminjaman' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-exchange-alt"></i>
                     <p>Peminjaman</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/stok') }}" class="nav-link {{ $activeMenu == 'stok' ? 'active' : '' }} ">
+                <a href="{{ url('/pengembalian') }}" class="nav-link {{ $activeMenu == 'pengembalian' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-undo"></i>
                     <p>Pengembalian</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/stok') }}" class="nav-link {{ $activeMenu == 'stok' ? 'active' : '' }} ">
+                <a href="{{ url('/denda') }}" class="nav-link {{ $activeMenu == 'denda' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-hand-holding-usd"></i>
                     <p>Transaksi Denda</p>
                 </a>
             </li>
             <hr class="bg-white border-white " style="height: 1px" />
             <li class="nav-item d-flex justify-content-end">
-                <a href="{{ url('/stok') }}" class="nav-link {{ $activeMenu == 'stok' ? 'active' : '' }} ">
+                <a href="{{ url('/logout') }}" class="nav-link ">
                     <i class="nav-icon fas fa-sign-out-alt"></i>
                     <p>Logout</p>
                 </a>

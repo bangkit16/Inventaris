@@ -17,11 +17,11 @@ class PeminjamanModel extends Model
 
     public function barang(): BelongsTo
     {
-        return $this->belongsTo(BarangModel::class, 'barang_id', 'barang_id');
+        return $this->belongsTo(BarangModel::class, 'id_barang', 'id_barang');
     }
     public function user(): BelongsTo
     {
-        return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
+        return $this->belongsTo(UserModel::class, 'id_user', 'id_user');
     }
     public function mahasiswa(): BelongsTo
     {

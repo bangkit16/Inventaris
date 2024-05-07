@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('id_transaksi');
             $table->unsignedBigInteger('id_barang')->index();
             $table->unsignedBigInteger('id_user')->index();
-            $table->integer('barang_masuk');
-            $table->integer('barang_keluar');
+            $table->integer('barang_masuk')->nullable();
+            $table->integer('barang_keluar')->nullable();
             $table->datetime('tgl_transaksi');
             $table->string('status', 50);
             $table->timestamps();

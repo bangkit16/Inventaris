@@ -2,7 +2,13 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\BarangKeluarController;
+use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LevelController;
+use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,4 +37,66 @@ Route::group(['prefix' => 'barang'], function () {
     Route::get('/{id}/edit', [BarangController::class, 'edit']);
     Route::put('/{id}', [BarangController::class, 'update']);
     Route::delete('/{id}', [BarangController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'barang_masuk'], function () {
+    Route::get('/', [BarangMasukController::class, 'index']);
+    Route::post('/list', [BarangMasukController::class, 'list']);
+    Route::get('/create', [BarangMasukController::class, 'create']);
+    Route::post('/', [BarangMasukController::class, 'store']);
+    Route::get('/{id}', [BarangMasukController::class, 'show']);
+    Route::get('/{id}/edit', [BarangMasukController::class, 'edit']);
+    Route::put('/{id}', [BarangMasukController::class, 'update']);
+    Route::delete('/{id}', [BarangMasukController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'barang_keluar'], function () {
+    Route::get('/', [BarangKeluarController::class, 'index']);
+    Route::post('/list', [BarangKeluarController::class, 'list']);
+    Route::get('/create', [BarangKeluarController::class, 'create']);
+    Route::post('/', [BarangKeluarController::class, 'store']);
+    Route::get('/{id}', [BarangKeluarController::class, 'show']);
+    Route::get('/{id}/edit', [BarangKeluarController::class, 'edit']);
+    Route::put('/{id}', [BarangKeluarController::class, 'update']);
+    Route::delete('/{id}', [BarangKeluarController::class, 'destroy']);
+});
+Route::group(['prefix' => 'user'], function () {
+    Route::get('/', [UserController::class, 'index']);
+    Route::post('/list', [UserController::class, 'list']);
+    Route::get('/create', [UserController::class, 'create']);
+    Route::post('/', [UserController::class, 'store']);
+    Route::get('/{id}', [UserController::class, 'show']);
+    Route::get('/{id}/edit', [UserController::class, 'edit']);
+    Route::put('/{id}', [UserController::class, 'update']);
+    Route::delete('/{id}', [UserController::class, 'destroy']);
+});
+Route::group(['prefix' => 'mahasiswa'], function () {
+    Route::get('/', [MahasiswaController::class, 'index']);
+    Route::post('/list', [MahasiswaController::class, 'list']);
+    Route::get('/create', [MahasiswaController::class, 'create']);
+    Route::post('/', [MahasiswaController::class, 'store']);
+    Route::get('/{id}', [MahasiswaController::class, 'show']);
+    Route::get('/{id}/edit', [MahasiswaController::class, 'edit']);
+    Route::put('/{id}', [MahasiswaController::class, 'update']);
+    Route::delete('/{id}', [MahasiswaController::class, 'destroy']);
+});
+Route::group(['prefix' => 'level'], function () {
+    Route::get('/', [LevelController::class, 'index']);
+    Route::post('/list', [LevelController::class, 'list']);
+    Route::get('/create', [LevelController::class, 'create']);
+    Route::post('/', [LevelController::class, 'store']);
+    Route::get('/{id}', [LevelController::class, 'show']);
+    Route::get('/{id}/edit', [LevelController::class, 'edit']);
+    Route::put('/{id}', [LevelController::class, 'update']);
+    Route::delete('/{id}', [LevelController::class, 'destroy']);
+});
+Route::group(['prefix' => 'peminjaman'], function () {
+    Route::get('/', [PeminjamanController::class, 'index']);
+    Route::post('/list', [PeminjamanController::class, 'list']);
+    Route::get('/create', [PeminjamanController::class, 'create']);
+    Route::post('/', [PeminjamanController::class, 'store']);
+    Route::get('/{id}', [PeminjamanController::class, 'show']);
+    Route::get('/{id}/edit', [PeminjamanController::class, 'edit']);
+    Route::put('/{id}', [PeminjamanController::class, 'update']);
+    Route::delete('/{id}', [PeminjamanController::class, 'destroy']);
 });

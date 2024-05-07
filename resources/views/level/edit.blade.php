@@ -7,68 +7,68 @@
             <div class="card-tools"></div>
         </div>
         <div class="card-body">
-            @empty($barang)
+            @empty($level)
                 <div class="alert alert-danger alert-dismissible">
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!</h5>
                     Data yang Anda cari tidak ditemukan.
                 </div>
-                <a href="{{ url('barang') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
+                <a href="{{ url('level') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
             @else
-                <form method="POST" action="{{ url('/barang/' . $barang->id_barang) }}" class="form-horizontal">
+                <form method="POST" action="{{ url('/level/' . $level->id_level) }}" class="form-horizontal">
                     @csrf
-                    {!! method_field('PUT') !!} 
+                    {!! method_field('PUT') !!}
                     <!-- tambahkan baris ini untuk proses edit yang butuh method PUT -->
                     <div class="form-group row">
-                        <label for="nama_barang" class="col-sm-2 col-form-label">Nama barang</label>
+                        <label for="level_kode" class="col-sm-2 col-form-label">Level Kode</label>
                         <div class="col-sm-10">
-                            <input type="text" name="nama_barang"
-                                class="form-control @error('nama_barang')
+                            <input type="text" name="level_kode"
+                                class="form-control @error('level_kode')
                               is-invalid
                           @enderror"
-                                id="nama_barang" placeholder="Nama barang"
-                                value="{{ old('nama_barang', $barang->nama_barang) }}">
-                            @error('nama_barang')
+                                id="level_kode" placeholder="Level Kode" value="{{ old('level_kode', $level->level_kode) }}">
+                            @error('level_kode')
                                 <div class="invalid-feedback" role="alert">
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="harga" class="col-sm-2 col-form-label">Harga</label>
+                    {{-- <div class="form-group row">
+                        <label class="col-sm-2 control-label col-form-label">Level</label>
                         <div class="col-sm-10">
-                            <input type="text" name="harga"
-                                class="form-control @error('harga')
+                            <select class="form-control" id="id_level" name="id_level" required>
+                                <option value="">- Pilih Level -</option>
+                                @foreach ($level as $item)
+                                    <option value="{{ $item->id_level }}" @if ($item->id_level == $level->id_level) selected @endif>
+                                        {{ $item->level_nama }}</option>
+                                @endforeach
+                            </select>
+                            @error('id_level')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div> --}}
+                    <div class="form-group row">
+                        <label for="level_nama" class="col-sm-2 col-form-label">Level Nama</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="level_nama"
+                                class="form-control @error('level_nama')
                           is-invalid
                       @enderror"
-                                id="harga" placeholder="Harga" value="{{ old('harga', $barang->harga) }}">
-                            @error('harga')
+                                id="level_nama" placeholder="Level Nama" value="{{ old('level_nama', $level->level_nama) }}">
+                            @error('level_nama')
                                 <div class="invalid-feedback" role="alert">
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="stok" class="col-sm-2 col-form-label">Stok</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="stok"
-                                class="form-control @error('stok')
-                          is-invalid
-                      @enderror"
-                                id="stok" placeholder="Stok" value="{{ old('stok', $barang->stok) }}">
-                            @error('stok')
-                                <div class="invalid-feedback" role="alert">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
+
                     <div class="form-group row">
                         <label class="col-sm-2 control-label col-form-label"></label>
                         <div class="col-sm-10">
                             <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
-                            <a class="btn btn-sm btn-default ml-1" href="{{ url('barang') }}">Kembali</a>
+                            <a class="btn btn-sm btn-default ml-1" href="{{ url('level') }}">Kembali</a>
                         </div>
                     </div>
                 </form>

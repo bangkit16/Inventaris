@@ -5,9 +5,13 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\BarangModel;
+use App\Models\DendaModel;
 use App\Models\LevelModel;
 use App\Models\UserModel;
 use App\Models\MahasiswaModel;
+use App\Models\PeminjamanModel;
+use App\Models\PengembalianModel;
+use App\Models\TransaksiModel;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -41,5 +45,9 @@ class DatabaseSeeder extends Seeder
         UserModel::factory(4)->create();
         BarangModel::factory(15)->create();
         MahasiswaModel::factory(15)->create();
+        TransaksiModel::factory(100)->create();
+        PeminjamanModel::factory(20)->create();
+        PengembalianModel::factory(10)->create();
+        DendaModel::factory(5)->create();
     }
 }

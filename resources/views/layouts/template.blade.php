@@ -79,6 +79,7 @@
 </style>
 
 <body class="hold-transition sidebar-mini">
+    @include('sweetalert::alert')
     <!-- Site wrapper -->
     <div class="wrapper">
 
