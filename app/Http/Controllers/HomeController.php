@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BarangModel;
+use App\Models\PeminjamanModel;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,10 +15,24 @@ class HomeController extends Controller
             'title' => 'Dashboard',
             'list' => ['Home', 'Dashboard']
         ];
+        $barangTeratas = BarangModel::orderBy('stok', 'asc')->take(3)->get();
+        $barangTerbaru = BarangModel::orderBy('created_at', 'desc')->take(3)->get();
+        $peminjaman = PeminjamanModel::doesntHave('pengembalian')->get();
+        $barang = BarangModel::all();
+
+        
+
 
         $activeMenu = 'dashboard';
 
-        return view('welcome', ['breadcumb' => $breadcumb, 'activeMenu' => $activeMenu]);
+        return view('welcome', [
+            'breadcumb' => $breadcumb, 
+            'barangTeratas' => $barangTeratas, 
+            'barang' => $barang, 
+            'barangTerbaru' => $barangTerbaru, 
+            'peminjaman' => $peminjaman, 
+            'activeMenu' => $activeMenu
+        ]);
         // return view('welcome');
     }
 }

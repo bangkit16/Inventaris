@@ -31,20 +31,40 @@
         <div class="card  ">
             <div class="card-body text-center">
                 <img src="{{ asset('img/polinema.png') }}" class="" alt=""><br><br>
+                {{-- @session('loginError')
+                <div class="alert alert-danger" role="alert">
+                    Login Gagal
+                </div>
+
+                @session --}}
+                @if (session('loginError'))
+                    <div class="alert alert-danger ">
+                        {{ session('loginError') }}
+                    </div>
+                @endif
 
                 <form action="/login " method="post">
                     @csrf
                     <div class="input-group mb-3 form-floating">
                         <input style="background-color: #DDE3EC;border-radius: 10px;border: none" type="text"
-                            class="form-control  @error('username') is-invalid @enderror" placeholder="NIP"
+                            class="form-control  @error('username') is-invalid @enderror" placeholder="Username"
                             id="username" value="{{ old('username') }}" name="username">
-
+                        @error('username')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
 
                     </div>
                     <div class="input-group mb-3 form-floating">
                         <input style="background-color: #DDE3EC;border-radius: 10px;border: none" type="password"
                             class="form-control  @error('password') is-invalid @enderror" placeholder="Password"
                             id="password" name="password">
+                        @error('password')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
                     <div class="row justify-content-center">
 
@@ -64,7 +84,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer bg-secondary text-center">
-                2024 Copyright Sistem Informasi Inventaris JTI 
+                2024 Copyright Sistem Informasi Inventaris JTI
             </div>
         </div>
         <!-- /.card -->

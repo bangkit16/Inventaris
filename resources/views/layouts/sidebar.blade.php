@@ -1,5 +1,5 @@
 {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css" /> --}}
-<style >
+<style>
     /* {{-- You can add AdminLTE customizations here --}} */
     .active {
         background-color: #50C4ED !important;
@@ -54,12 +54,12 @@
             </li>
             <li class="nav-header">Data Pengguna</li>
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a href="{{ url('/level') }}" class="nav-link {{ $activeMenu == 'level' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-layer-group"></i>
                     <p>Level User</p>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a href="{{ url('/user') }}" class="nav-link {{ $activeMenu == 'user' ? 'active' : '' }}">
                     <i class="nav-icon far fa-user"></i>
@@ -80,26 +80,30 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/barang_masuk') }}" class="nav-link {{ $activeMenu == 'barang_masuk' ? 'active' : '' }} ">
+                <a href="{{ url('/barang_masuk') }}"
+                    class="nav-link {{ $activeMenu == 'barang_masuk' ? 'active' : '' }} ">
                     <i class="nav-icon far fa-box"></i>
                     <p>Barang Masuk</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/barang_keluar') }}" class="nav-link {{ $activeMenu == 'barang_keluar' ? 'active' : '' }} ">
+                <a href="{{ url('/barang_keluar') }}"
+                    class="nav-link {{ $activeMenu == 'barang_keluar' ? 'active' : '' }} ">
                     <i class="nav-icon far fa-box-open"></i>
                     <p>Barang Keluar</p>
                 </a>
             </li>
             <li class="nav-header">Data Transaksi</li>
             <li class="nav-item">
-                <a href="{{ url('/peminjaman') }}" class="nav-link {{ $activeMenu == 'peminjaman' ? 'active' : '' }} ">
+                <a href="{{ url('/peminjaman') }}"
+                    class="nav-link {{ $activeMenu == 'peminjaman' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-exchange-alt"></i>
                     <p>Peminjaman</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/pengembalian') }}" class="nav-link {{ $activeMenu == 'pengembalian' ? 'active' : '' }} ">
+                <a href="{{ url('/pengembalian') }}"
+                    class="nav-link {{ $activeMenu == 'pengembalian' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-undo"></i>
                     <p>Pengembalian</p>
                 </a>

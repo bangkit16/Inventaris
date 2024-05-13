@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BarangModel;
+use App\Models\TransaksiModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -76,50 +77,26 @@ class BarangController extends Controller
 
     public function store(Request $request)
     {
-        // try {
         $validated = $request->validate([
-            //username harus diisi, berupa string, minimal 3 karakter dan bernilai unik di table m_user kolom username
             'nama_barang' => 'required|unique:m_barang,nama_barang',
             'stok' => 'required|numeric',
             'harga' => 'required|numeric',
+
         ]);
-        BarangModel::create($validated);
+        $validated['status'] = 'wlee';
+        $barang = BarangModel::create($validated);
+        TransaksiModel::create([
+            'id_barang' => $barang->id_barang,
+            'id_user' => auth()->user()->id_user,
+            'barang_masuk' => $validated['stok'],
+            'tgl_transaksi' => now(),
+            'status' => 'baru'
+        ]);
+
 
         Alert::success('Ditambahkan', 'Data Barang berhasil di tambahkan');
-        // } catch (\Throwable $th) {
-        // return response()->json(['success' => false, 'message' => 'error'], 422);
-        // return [
-        //     "data" => $bar,
-        //     "success" => true,
-        // ];
-        // }
+
         return redirect('/barang')->with('success', 'Data barang berhasil disimpan');
-        // if (!$validated) {
-        //     return response()->json(['success' => false, 'message' => 'error'], 422);
-        // }
-
-
-        //     return [
-        //         "error" => "asdadsasdadsasdadsa",
-        //         "success" => false
-        //     ];
-        // }
-        // dd($request);
-
-        // die("asdasd");
-
-
-
-        // // dd($request);
-
-
-        // BarangModel::create([
-        //     'username' => $request->username,
-        //     'nama' => $request->nama,
-        //     'password' => bcrypt($request->password),
-        //     'level_id' => $request->level_id
-        // ]);
-
     }
 
     public function show(string $id)
@@ -171,13 +148,69 @@ class BarangController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $validated = $request->validate([
-            'nama_barang' => 'required|unique:m_barang,nama_barang,' . $id . ',id_barang',
-            // 'nama_barang' => 'required|unique:m_barang,nama_barang , ' . $id . ',id_barang',
-            'stok' => 'required|numeric',
-            'harga' => 'required|numeric',
-        ]);
+        if ($request->tipe) {
+            $validated = $request->validate([
+                'stok' => 'required|numeric',
+            ]);
+        } else {
 
+            $validated = $request->validate([
+                'nama_barang' => 'required|unique:m_barang,nama_barang,' . $id . ',id_barang',
+                'stok' => 'required|numeric',
+                'harga' => 'required|numeric',
+            ]);
+        }
+
+        $stokAwal =  BarangModel::find($id)->stok;
+
+        if ($request->tipe) {
+
+            if ($request->tipe == 'masuk') {
+                TransaksiModel::create([
+                    'id_barang' => $id,
+                    'id_user' => auth()->user()->id_user,
+                    'barang_masuk' => $validated['stok'],
+                    'tgl_transaksi' => now(),
+                    'status' => 'baru'
+                ]);
+                $validated['stok'] += $stokAwal;
+            } else if ($request->tipe == 'keluar') {
+                TransaksiModel::create([
+                    'id_barang' => $id,
+                    'id_user' => auth()->user()->id_user,
+                    'barang_keluar' => $validated['stok'],
+                    'tgl_transaksi' => now(),
+                    'status' => 'baru'
+                ]);
+                $validated['stok'] = $stokAwal - $validated['stok'];
+            }
+        } else {
+            // $stokAwal = $barang->stok;
+            if ($stokAwal < $validated['stok']) {
+                TransaksiModel::create([
+                    'id_barang' => $id,
+                    'id_user' => auth()->user()->id_user,
+                    'barang_masuk' => ($validated['stok'] - $stokAwal),
+                    'tgl_transaksi' => now(),
+                    'status' => 'baru'
+                ]);
+            } else if ($stokAwal > $validated['stok']) {
+                TransaksiModel::create([
+                    'id_barang' => $id,
+                    'id_user' => auth()->user()->id_user,
+                    'barang_keluar' => ($stokAwal  - $validated['stok']),
+                    'tgl_transaksi' => now(),
+                    'status' => 'rusak'
+                ]);
+            }
+        }
+
+        if ($stokAwal < 0 ) {
+            # code...
+            Alert::Error('Stok Error', 'Stok kurang dari 0');
+            return redirect('/barang')->with('success', 'Data berhasil diubah');
+
+        }
         BarangModel::find($id)->update($validated);
 
         Alert::success('Terubah', 'Data berhasil di ubah');
@@ -203,6 +236,7 @@ class BarangController extends Controller
             return redirect('/barang')->with('error', 'Data user tidak ditemukan');
         }
         try {
+            TransaksiModel::where('id_barang', $id)->delete();
             BarangModel::destroy($id);
 
             Alert::success('Terhapus', 'Data Barang berhasil di hapus');

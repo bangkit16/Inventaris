@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\BarangModel;
+use App\Models\DendaModel;
 use App\Models\MahasiswaModel;
 use App\Models\PeminjamanModel;
+use App\Models\PengembalianModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -27,13 +29,6 @@ class PeminjamanController extends Controller
         $mahasiswa = MahasiswaModel::all();
 
         $activeMenu = 'peminjaman';
-        // Alert::alert('Title', 'Message', 'Type');
-        // Alert::success('Toast Message', 'Toast Type');
-
-
-        // dd(PeminjamanModel::select('user_id', 'user_kode', 'user_nama', 'harga_jual', 'harga_beli', 'kategori_id')->with('kategori')->where('kategori_id', 2));
-        // dd(PeminjamanModel::all()->toArray());
-        // dd($kategori);
 
         return view('peminjaman.index', [
             'breadcumb' => $breadcumb,
@@ -71,15 +66,32 @@ class PeminjamanController extends Controller
             ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
             ->addColumn('aksi', function ($peminjaman) { // menambahkan kolom aksi
 
-                $btn = '<a href="' . url('/peminjaman/' . $peminjaman->id_peminjaman) . '" class="btn btn-info btn-sm">Detail</a> ';
-                $btn .= '<a href="' . url('/peminjaman/' . $peminjaman->id_peminjaman . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
+                // $btn = '<a href="' . url('/peminjaman/' . $peminjaman->id_peminjaman) . '" class="btn btn-info btn-sm">Detail</a> ';
+                $btn = '<a href="' . url('/peminjaman/' . $peminjaman->id_peminjaman . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
                 $btn .= '<form class="d-inline-block" method="POST" action="' .
                     url('/peminjaman/' . $peminjaman->id_peminjaman) . '" id="deleteData">'
                     . csrf_field() . method_field('DELETE') .
                     '<button type="submit" class="btn btn-danger btn-sm" onclick="return deleteData()" data-confirm-delete="true">Hapus</button></form>';
+                // $peminjaman = PeminjamanModel::find($id);
+                
                 return $btn;
             })
-            ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html
+            ->addColumn('status', function ($peminjaman) { // menambahkan kolom aksi
+
+                // $btn = '<a href="' . url('/peminjaman/' . $peminjaman->id_peminjaman) . '" class="btn btn-info btn-sm">Detail</a> ';
+                
+                if ($peminjaman->pengembalian()->exists()) {
+                    // Ada pengembalian untuk peminjaman ini
+                    $btn =  '<a href="' . url('/pengembalian/' . $peminjaman->pengembalian->id_pengembalian) . '" class="btn btn-success btn-sm " disabled>Dikembalikan</a>';
+                } else {
+                    $btn =  '<form class="d-inline-block" method="POST" action="' .
+                    url('/peminjaman/kembali/' . $peminjaman->id_peminjaman) . '" id="kembaliBarang">'
+                    . csrf_field() . 
+                    '<button type="submit" class="btn btn-secondary btn-sm" onclick="return kembaliBarang()" data-confirm-delete="true">Dipinjam</button></form>';;
+                }
+                return $btn;
+            })
+            ->rawColumns(['aksi' , 'status']) // memberitahu bahwa kolom aksi adalah html
             ->make(true);
     }
 
@@ -115,13 +127,14 @@ class PeminjamanController extends Controller
         $validated = $request->validate([
             // '' => 'required|unique:m_user,username',
             'id_barang' => 'required',
-            'id_user' => 'required',
+            // 'id_user' => 'required',
             'id_mahasiswa' => 'required',
             'tgl_pinjam' => 'required',
             'tgl_tenggat' => 'required',
             'jumlah' => 'required',
             // 'password' => 'required|min:5',
         ]);
+        $validated['id_user'] = auth()->user()->id_user;
         // $validated['password'] = bcrypt($validated['password']);
         PeminjamanModel::create($validated);
 
@@ -164,7 +177,11 @@ class PeminjamanController extends Controller
 
     public function show(string $id)
     {
-        $peminjaman = PeminjamanModel::find($id)->with('barang')->with('user')->with('mahasiswa');
+        $peminjaman = PeminjamanModel::find($id);
+        // ->with('barang');
+        // ->with('user')->with('mahasiswa');
+
+        // ddd($peminjaman);
 
         $breadcumb = (object)[
             'title' => 'Detail peminjaman',
@@ -186,6 +203,7 @@ class PeminjamanController extends Controller
     }
     public function edit(string $id)
     {
+
         $peminjaman = PeminjamanModel::find($id);
         $barang = BarangModel::all();
         $user = UserModel::all();
@@ -256,6 +274,7 @@ class PeminjamanController extends Controller
         }
         try {
             PeminjamanModel::destroy($id);
+            PengembalianModel::where('id_peminjaman' , $id)->delete();
 
             Alert::success('Terhapus', 'Data peminjaman berhasil di hapus');
 
@@ -265,5 +284,25 @@ class PeminjamanController extends Controller
             Alert::error('Error', 'Data peminjaman gagal dihapus karena terdapat tabel lain yang terkait dengan data ini');
             return redirect('/peminjaman')->with('error', 'Data peminjaman gagal dihapus karena terdapat tabel lain yang terkait dengan data ini');
         }
+    }
+    public function kembali($id){
+        $pengembalian = PengembalianModel::create([
+            'id_peminjaman' => $id,
+            'tgl_kembali' => now(),
+        ]);
+
+        $pinjam = PeminjamanModel::find($id);
+
+        if($pinjam->tgl_tenggat < $pengembalian->tgl_kembali){
+            DendaModel::create([
+                'id_pengembalian' => $pengembalian->id_pengembalian,
+                'keterangan' => 'Kompen 2 Jam',
+            ]);
+        }
+
+        Alert::success('Barang Dikembalikan' , 'Barang sudah tersimpan dalam pengembalian');
+
+        return redirect('/peminjaman');
+
     }
 }

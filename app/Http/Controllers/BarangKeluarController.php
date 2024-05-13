@@ -39,7 +39,7 @@ class BarangKeluarController extends Controller
     public function list(Request $request)
     {
         // $users = BarangModel::all();
-        $barangKeluars = TransaksiModel::select('id_barang', 'id_user', 'barang_keluar', 'tgl_transaksi', 'status')->with('barang')->with('user')->where('barang_masuk', null);
+        $barangKeluars = TransaksiModel::select('id_transaksi' ,'id_barang', 'id_user', 'barang_keluar', 'tgl_transaksi', 'status')->with('barang')->with('user')->where('barang_masuk', null);
         // ->where('barang_masuk', !null);
 
         // dd(BarangModel::all()->toJson());
@@ -54,8 +54,8 @@ class BarangKeluarController extends Controller
             ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
             ->addColumn('aksi', function ($barangKeluar) { // menambahkan kolom aksi
 
-                $btn = '<a href="' . url('/barang_keluar/' . $barangKeluar->id_transaksi) . '" class="btn btn-info btn-sm">Detail</a> ';
-                $btn .= '<a href="' . url('/barang_keluar/' . $barangKeluar->id_transaksi . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
+                // $btn = '<a href="' . url('/barang_keluar/' . $barangKeluar->id_transaksi) . '" class="btn btn-info btn-sm">Detail</a> ';
+                $btn = '<a href="' . url('/barang_keluar/' . $barangKeluar->id_transaksi . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
                 $btn .= '<form class="d-inline-block" method="POST" action="' .
                     url('/barang_keluar/' . $barangKeluar->id_transaksi) . '" id="deleteData">'
                     . csrf_field() . method_field('DELETE') .
@@ -78,7 +78,7 @@ class BarangKeluarController extends Controller
 
         // $kategori = KategoriModel::all();
 
-        $activeMenu = 'barang_masuk';
+        $activeMenu = 'barang_keluar';
 
         return view('barang.create', ['breadcumb' => $breadcumb, 'page' => $page,  'activeMenu' => $activeMenu]);
     }
@@ -155,25 +155,25 @@ class BarangKeluarController extends Controller
     }
     public function edit(string $id)
     {
-        $barang = BarangModel::find($id);
-        // $kategori = KategoriModel::all();
+        $barangkeluar = TransaksiModel::find($id);
+        $barang = BarangModel::all();
 
         $breadcumb = (object)[
-            'title' => 'Edit Barang',
-            'list' => ['Home', 'Barang', 'Edit']
+            'title' => 'Edit Barang eluar',
+            'list' => ['Home', 'Barang eluar', 'Edit']
         ];
 
         $page = (object)[
-            'title' => 'Edit barang'
+            'title' => 'Edit barang keluar'
         ];
 
-        $activeMenu = 'barang';
+        $activeMenu = 'barang_keluar';
 
-        return view('barang.edit', [
+        return view('barang_keluar.edit', [
             'breadcumb' => $breadcumb,
             'page' => $page,
+            'barang_keluar' => $barangkeluar,
             'barang' => $barang,
-            // 'kategori' => $kategori,
             'activeMenu' => $activeMenu
         ]);
     }
@@ -181,20 +181,38 @@ class BarangKeluarController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
-            'nama_barang' => 'required|unique:m_barang,nama_barang,' . $id . ',id_barang',
+            'id_barang' => 'required',
+            // 'nama_barang' => 'required|unique:m_barang,nama_barang,' . $id . ',id_barang',
             // 'nama_barang' => 'required|unique:m_barang,nama_barang , ' . $id . ',id_barang',
-            'stok' => 'required|numeric',
-            'harga' => 'required|numeric',
+            'barang_keluar' => 'required|numeric',
+            'tgl_transaksi' => 'required',
+            'status' => 'required',
+        ]);
+        // dd($id);
+        $barang = BarangModel::find($validated['id_barang']);
+        $stokAwal = $barang->stok + TransaksiModel::find($id)->barang_keluar;
+        // dd();
+        $stokAkhir = $stokAwal - $validated['barang_keluar'];
+        // dd($stokAkhir);
+
+        if ($stokAkhir < 0) {
+            Alert::error('Error', 'Stok kurang dari 0');
+            return back();
+        }
+
+        $barang->update([
+            'stok' => $stokAkhir
         ]);
 
-        BarangModel::find($id)->update($validated);
+        TransaksiModel::find($id)->update($validated);
+
 
         Alert::success('Terubah', 'Data berhasil di ubah');
 
-        // BarangModel::find($id)->update([
+        // TransaksiModel::find($id)->update([
         //     'username' => $request->username,
         //     'nama' => $request->nama,
-        //     'password' => $request->password ? bcrypt($request->password) : BarangModel::find($id)->password,
+        //     'password' => $request->password ? bcrypt($request->password) : TransaksiModel::find($id)->password,
         //     'level_id' => $request->level_id
         // ]);
 
@@ -212,7 +230,13 @@ class BarangKeluarController extends Controller
             return redirect('/barang')->with('error', 'Data user tidak ditemukan');
         }
         try {
-            BarangModel::destroy($id);
+            $keluar = TransaksiModel::find($id)->barang_keluar;
+            $barang = BarangModel::find(TransaksiModel::find($id)->id_barang);
+            $stok = $barang->stok;
+            $barang->update([
+                'stok' => $stok + $keluar,
+            ]);
+            TransaksiModel::destroy($id);
 
             Alert::success('Terhapus', 'Data Barang berhasil di hapus');
 

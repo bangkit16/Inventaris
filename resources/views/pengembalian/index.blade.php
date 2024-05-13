@@ -2,51 +2,29 @@
 @section('content')
     <div class="container-fluid">
         {{-- <div class="d-flex"> --}}
-        <h4>Transaksi Masuk</h4><br>
+        <h4>Daftar Barang yang terdaftar dalam sistem</h4><br>
         {{-- <a class="btn btn-large btn-primary mt-1 float-right fw-bold fs-5"
-            href="{{ url('barang/create') }}"><strong>Tambah</strong></a> --}}
+            href="{{ url('pengembalian/create') }}"><strong>Tambah</strong></a> --}}
 
 
-        {{-- <a href="{{ url('barang_masuk/create') }}" class="btn  btn-large btn-primary mt-1 float-right fw-bold fs-5">
+        {{-- <a href="{{ url('pengembalian/create') }}" class="btn  btn-large btn-primary mt-1 float-right fw-bold fs-5">
             <strong>Tambah Data</strong>
         </a> --}}
-        <div class="row">
-            <label class="col-1 control-label col-form-label">Filter:</label>
-            <div class="col-3">
-                <select class="form-control" id="id_barang" name="id_barang" required>
-                    <option value="">- Semua -</option>
-                    @foreach ($barang as $item)
-                        <option value="{{ $item->id_barang }}">{{ $item->nama_barang }}</option>
-                    @endforeach
-                </select>
-                <small class="form-text text-muted">Barang</small>
-            </div>
-            {{-- <label class="col-1 control-label col-form-label">Filter:</label> --}}
-            <div class="col-3">
-                <select class="form-control" id="id_user" name="id_user" required>
-                    <option value="">- Semua -</option>
-                    @foreach ($user as $userr)
-                        <option value="{{ $userr->id_user }}">{{ $userr->nama }}</option>
-                    @endforeach
-                </select>
-                <small class="form-text text-muted">Admin</small>
-            </div>
-        </div>
+        {{--  --}}
+
 
         {{-- </div> --}}
 
         <br><br>
-        <table class="table table-hover shadow" style="border: 1px solid black" id="table_barang_masuk">
+        <table class="table table-hover shadow " style="border: 1px solid black" id="table_pengembalian">
             {{-- <th class=" " style="border: 1px solid black !important"> --}}
             <thead>
 
                 <tr class="" style="background-color: #D9D9D9;border: 2px solid black">
                     <th scope="col">ID</th>
-                    <th scope="col">Barang</th>
-                    <th scope="col">Admin</th>
-                    <th scope="col">Jumlah</th>
-                    <th scope="col">Tanggal</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Barang Peminjaman</th>
+                    <th scope="col">Mahasiswa</th>
+                    <th scope="col">Tanggal Kembali</th>
                     <th scope="col">Aksi</th>
                 </tr>
             </thead>
@@ -106,16 +84,17 @@
         // };
         // import Swal from 'sweetalert2';
         $(document).ready(function() {
-            var dataBarang = $('#table_barang_masuk').DataTable({
+            var dataBarang = $('#table_pengembalian').DataTable({
                 serverSide: true, // serverSide: true, jika ingin menggunakan server side processing
                 ajax: {
-                    "url": "{{ url('barang_masuk/list') }}",
+                    "url": "{{ url('pengembalian/list') }}",
                     "dataType": "json",
                     "type": "POST",
-                    "data": function(d) {
-                        d.id_barang = $('#id_barang').val();
-                        d.id_user = $('#id_user').val();
-                    }
+                    // "data": function(d) {
+                    //   d.id_barang = $('#id_barang').val();
+                    //   d.id_mahasiswa = $('#id_mahasiswa').val();
+                    //   d.id_user = $('#id_user').val();
+                    // }
                 },
                 columns: [{
                     data: "DT_RowIndex", // nomor urut dari laravel datatable addIndexColumn()
@@ -123,31 +102,21 @@
                     orderable: false,
                     searchable: false
                 }, {
-                    data: "barang.nama_barang",
+
+                    data: "peminjaman.barang.nama_barang",
                     className: "",
                     orderable: true, // orderable: true, jika ingin kolom ini bisa diurutkan
                     searchable: true // searchable: true, jika ingin kolom ini bisa dicari
                 }, {
-                    data: "user.nama",
+                    data: "peminjaman.mahasiswa.nama",
                     className: "",
                     orderable: true, // orderable: true, jika ingin kolom ini bisa diurutkan
                     searchable: true // searchable: true, jika ingin kolom ini bisa dicari
                 }, {
-                    data: "barang_masuk",
+                    data: "tgl_kembali",
                     className: "",
                     orderable: true, // orderable: true, jika ingin kolom ini bisa diurutkan
                     searchable: true // searchable: true, jika ingin kolom ini bisa dicari
-                }, {
-                    data: "tgl_transaksi",
-                    className: "",
-                    orderable: true, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: true // searchable: true, jika ingin kolom ini bisa dicari
-                }, {
-                    data: "status",
-                    className: "",
-                    orderable: true, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: true, // searchable: true, jika ingin kolom ini bisa dicari
-                    // render: 
                 }, {
                     data: "aksi",
                     className: "",
@@ -155,12 +124,15 @@
                     searchable: false // searchable: true, jika ingin kolom ini bisa dicari
                 }]
             });
-            $('#id_barang').on('change', function() {
-                dataBarang.ajax.reload();
-            });
-            $('#id_user').on('change', function() {
-                dataBarang.ajax.reload();
-            })
+            // $('#id_mahasiswa').on('change', function() {
+            //     dataBarang.ajax.reload();
+            // });
+            // $('#id_barang').on('change', function() {
+            //     dataBarang.ajax.reload();
+            // });
+            // $('#id_user').on('change', function() {
+            //     dataBarang.ajax.reload();
+            // });
 
             // or via CommonJS
             // const Swal = require('sweetalert2')
@@ -170,7 +142,7 @@
             // $('#tambahBarang').on('submit', function(e) {
             //     e.preventDefault();
             //     $.ajax({
-            //         url: "{{ url('barang/') }}", // Ganti dengan URL tujuan Anda
+            //         url: "{{ url('pengembalian/') }}", // Ganti dengan URL tujuan Anda
             //         method: 'post',
             //         data: $(this).serialize(),
             //         success: function(response) {

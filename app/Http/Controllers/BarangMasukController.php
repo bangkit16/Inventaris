@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BarangModel;
 use App\Models\TransaksiModel;
+// use App\Models\TransaksiModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -30,19 +31,19 @@ class BarangMasukController extends Controller
         // Alert::success('Toast Message', 'Toast Type');
 
 
-        // dd(BarangModel::select('barang_id', 'barang_kode', 'barang_nama', 'harga_jual', 'harga_beli', 'kategori_id')->with('kategori')->where('kategori_id', 2));
-        // dd(BarangModel::all()->toArray());
+        // dd(TransaksiModel::select('barang_id', 'barang_kode', 'barang_nama', 'harga_jual', 'harga_beli', 'kategori_id')->with('kategori')->where('kategori_id', 2));
+        // dd(TransaksiModel::all()->toArray());
         // dd($kategori);
 
-        return view('barang_masuk.index', ['breadcumb' => $breadcumb, 'page' => $page,'barang' => $barang, 'user' => $user, 'activeMenu' => $activeMenu]);
+        return view('barang_masuk.index', ['breadcumb' => $breadcumb, 'page' => $page, 'barang' => $barang, 'user' => $user, 'activeMenu' => $activeMenu]);
     }
     public function list(Request $request)
     {
-        // $users = BarangModel::all();
-        $barangMasuks = TransaksiModel::select('id_barang', 'id_user', 'barang_masuk', 'tgl_transaksi', 'status')->with('barang')->with('user')->where('barang_keluar', null);
+        // $users = TransaksiModel::all();
+        $barangMasuks = TransaksiModel::select('id_transaksi', 'id_barang', 'id_user', 'barang_masuk', 'tgl_transaksi', 'status')->with('barang')->with('user')->where('barang_keluar', null);
         // ->where('barang_masuk', !null);
 
-        // dd(BarangModel::all()->toJson());
+        // dd(TransaksiModel::all()->toJson());
         if ($request->id_barang) {
             $barangMasuks->where('id_barang', $request->id_barang);
         }
@@ -54,8 +55,8 @@ class BarangMasukController extends Controller
             ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
             ->addColumn('aksi', function ($barangMasuk) { // menambahkan kolom aksi
 
-                $btn = '<a href="' . url('/barang_masuk/' . $barangMasuk->id_transaksi) . '" class="btn btn-info btn-sm">Detail</a> ';
-                $btn .= '<a href="' . url('/barang_masuk/' . $barangMasuk->id_transaksi . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
+                // $btn = '<a href="' . url('/barang_masuk/' . $barangMasuk->id_transaksi) . '" class="btn btn-info btn-sm">Detail</a> ';
+                $btn = '<a href="' . url('/barang_masuk/' . $barangMasuk->id_transaksi . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
                 $btn .= '<form class="d-inline-block" method="POST" action="' .
                     url('/barang_masuk/' . $barangMasuk->id_transaksi) . '" id="deleteData">'
                     . csrf_field() . method_field('DELETE') .
@@ -92,48 +93,16 @@ class BarangMasukController extends Controller
             'stok' => 'required|numeric',
             'harga' => 'required|numeric',
         ]);
-        BarangModel::create($validated);
+        TransaksiModel::create($validated);
 
         Alert::success('Ditambahkan', 'Data Barang berhasil di tambahkan');
-        // } catch (\Throwable $th) {
-        // return response()->json(['success' => false, 'message' => 'error'], 422);
-        // return [
-        //     "data" => $bar,
-        //     "success" => true,
-        // ];
-        // }
+
         return redirect('/barang')->with('success', 'Data barang berhasil disimpan');
-        // if (!$validated) {
-        //     return response()->json(['success' => false, 'message' => 'error'], 422);
-        // }
-
-
-        //     return [
-        //         "error" => "asdadsasdadsasdadsa",
-        //         "success" => false
-        //     ];
-        // }
-        // dd($request);
-
-        // die("asdasd");
-
-
-
-        // // dd($request);
-
-
-        // BarangModel::create([
-        //     'username' => $request->username,
-        //     'nama' => $request->nama,
-        //     'password' => bcrypt($request->password),
-        //     'level_id' => $request->level_id
-        // ]);
-
     }
 
     public function show(string $id)
     {
-        $barang = BarangModel::find($id);
+        $barang = TransaksiModel::find($id);
 
         $breadcumb = (object)[
             'title' => 'Detail Barang',
@@ -155,25 +124,25 @@ class BarangMasukController extends Controller
     }
     public function edit(string $id)
     {
-        $barang = BarangModel::find($id);
-        // $kategori = KategoriModel::all();
+        $barangmasuk = TransaksiModel::find($id);
+        $barang = BarangModel::all();
 
         $breadcumb = (object)[
-            'title' => 'Edit Barang',
-            'list' => ['Home', 'Barang', 'Edit']
+            'title' => 'Edit Barang Masuk',
+            'list' => ['Home', 'Barang Masuk', 'Edit']
         ];
 
         $page = (object)[
-            'title' => 'Edit barang'
+            'title' => 'Edit barang masuk'
         ];
 
-        $activeMenu = 'barang';
+        $activeMenu = 'barang_masuk';
 
-        return view('barang.edit', [
+        return view('barang_masuk.edit', [
             'breadcumb' => $breadcumb,
             'page' => $page,
+            'barang_masuk' => $barangmasuk,
             'barang' => $barang,
-            // 'kategori' => $kategori,
             'activeMenu' => $activeMenu
         ]);
     }
@@ -181,20 +150,38 @@ class BarangMasukController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
-            'nama_barang' => 'required|unique:m_barang,nama_barang,' . $id . ',id_barang',
+            'id_barang' => 'required',
+            // 'nama_barang' => 'required|unique:m_barang,nama_barang,' . $id . ',id_barang',
             // 'nama_barang' => 'required|unique:m_barang,nama_barang , ' . $id . ',id_barang',
-            'stok' => 'required|numeric',
-            'harga' => 'required|numeric',
+            'barang_masuk' => 'required|numeric',
+            'tgl_transaksi' => 'required',
+            'status' => 'required',
+        ]);
+        // dd($id);
+        $barang = BarangModel::find($validated['id_barang']);
+        $stokAwal = $barang->stok - TransaksiModel::find($id)->barang_masuk;
+        // dd();
+        $stokAkhir = $stokAwal + $validated['barang_masuk'];
+        // dd($stokAkhir);
+
+        if ($stokAkhir < 0) {
+            Alert::error('Error', 'Stok kurang dari 0');
+            return back();
+        }
+
+        $barang->update([
+            'stok' => $stokAkhir
         ]);
 
-        BarangModel::find($id)->update($validated);
+        TransaksiModel::find($id)->update($validated);
+
 
         Alert::success('Terubah', 'Data berhasil di ubah');
 
-        // BarangModel::find($id)->update([
+        // TransaksiModel::find($id)->update([
         //     'username' => $request->username,
         //     'nama' => $request->nama,
-        //     'password' => $request->password ? bcrypt($request->password) : BarangModel::find($id)->password,
+        //     'password' => $request->password ? bcrypt($request->password) : TransaksiModel::find($id)->password,
         //     'level_id' => $request->level_id
         // ]);
 
@@ -206,13 +193,19 @@ class BarangMasukController extends Controller
         // $title = 'Delete User!';
         // $text = "Are you sure you want to delete?";
         // confirmDelete($title, $text);
-        $check = BarangModel::find($id);
+        $check = TransaksiModel::find($id);
         if (!$check) {
             Alert::error('Error', 'Data barang tidak ditemukan');
-            return redirect('/barang')->with('error', 'Data user tidak ditemukan');
+            return redirect('/barang')->with('error', 'Data barang tidak ditemukan');
         }
         try {
-            BarangModel::destroy($id);
+            $masuk = TransaksiModel::find($id)->barang_masuk;
+            $barang = BarangModel::find(TransaksiModel::find($id)->id_barang);
+            $stok = $barang->stok;
+            $barang->update([
+                'stok' => $stok - $masuk,
+            ]);
+            TransaksiModel::destroy($id);
 
             Alert::success('Terhapus', 'Data Barang berhasil di hapus');
 

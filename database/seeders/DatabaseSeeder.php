@@ -45,9 +45,9 @@ class DatabaseSeeder extends Seeder
         UserModel::factory(4)->create();
         BarangModel::factory(15)->create();
         MahasiswaModel::factory(15)->create();
-        TransaksiModel::factory(100)->create();
+        // TransaksiModel::factory(100)->create();
         PeminjamanModel::factory(20)->create();
         PengembalianModel::factory(10)->create();
-        DendaModel::factory(5)->create();
+        // DendaModel::factory(5)->create();
     }
 }

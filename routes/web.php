@@ -8,6 +8,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\PengembalianController;
+use App\Http\Controllers\DendaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,8 +27,10 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/login', [AuthController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->middleware('auth');
+Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
+Route::get('/logout', [AuthController::class, 'logout']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['prefix' => 'barang'], function () {
     Route::get('/', [BarangController::class, 'index']);
@@ -80,16 +84,17 @@ Route::group(['prefix' => 'mahasiswa'], function () {
     Route::put('/{id}', [MahasiswaController::class, 'update']);
     Route::delete('/{id}', [MahasiswaController::class, 'destroy']);
 });
-Route::group(['prefix' => 'level'], function () {
-    Route::get('/', [LevelController::class, 'index']);
-    Route::post('/list', [LevelController::class, 'list']);
-    Route::get('/create', [LevelController::class, 'create']);
-    Route::post('/', [LevelController::class, 'store']);
-    Route::get('/{id}', [LevelController::class, 'show']);
-    Route::get('/{id}/edit', [LevelController::class, 'edit']);
-    Route::put('/{id}', [LevelController::class, 'update']);
-    Route::delete('/{id}', [LevelController::class, 'destroy']);
-});
+// Route::group(['prefix' => 'level'], function () {
+//     Route::get('/', [LevelController::class, 'index']);
+//     Route::post('/list', [LevelController::class, 'list']);
+//     Route::get('/create', [LevelController::class, 'create']);
+//     Route::post('/', [LevelController::class, 'store']);
+//     Route::get('/{id}', [LevelController::class, 'show']);
+//     Route::get('/{id}/edit', [LevelController::class, 'edit']);
+//     Route::put('/{id}', [LevelController::class, 'update']);
+//     Route::delete('/{id}', [LevelController::class, 'destroy']);
+// });
+
 Route::group(['prefix' => 'peminjaman'], function () {
     Route::get('/', [PeminjamanController::class, 'index']);
     Route::post('/list', [PeminjamanController::class, 'list']);
@@ -99,4 +104,25 @@ Route::group(['prefix' => 'peminjaman'], function () {
     Route::get('/{id}/edit', [PeminjamanController::class, 'edit']);
     Route::put('/{id}', [PeminjamanController::class, 'update']);
     Route::delete('/{id}', [PeminjamanController::class, 'destroy']);
+    Route::post('/kembali/{id}', [PeminjamanController::class, 'kembali']);
+});
+Route::group(['prefix' => 'pengembalian'], function () {
+    Route::get('/', [PengembalianController::class, 'index']);
+    Route::post('/list', [PengembalianController::class, 'list']);
+    Route::get('/create', [PengembalianController::class, 'create']);
+    Route::post('/', [PengembalianController::class, 'store']);
+    Route::get('/{id}', [PengembalianController::class, 'show']);
+    Route::get('/{id}/edit', [PengembalianController::class, 'edit']);
+    Route::put('/{id}', [PengembalianController::class, 'update']);
+    Route::delete('/{id}', [PengembalianController::class, 'destroy']);
+});
+Route::group(['prefix' => 'denda'], function () {
+    Route::get('/', [DendaController::class, 'index']);
+    Route::post('/list', [DendaController::class, 'list']);
+    Route::get('/create', [DendaController::class, 'create']);
+    Route::post('/', [DendaController::class, 'store']);
+    Route::get('/{id}', [DendaController::class, 'show']);
+    Route::get('/{id}/edit', [DendaController::class, 'edit']);
+    Route::put('/{id}', [DendaController::class, 'update']);
+    Route::delete('/{id}', [DendaController::class, 'destroy']);
 });

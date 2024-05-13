@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class PengembalianModel extends Model
 {
@@ -18,6 +19,10 @@ class PengembalianModel extends Model
 
     public function peminjaman(): BelongsTo
     {
-        return $this->belongsTo(PeminjamanModel::class, 'peminjaman_id', 'peminjaman_id');
+        return $this->belongsTo(PeminjamanModel::class, 'id_peminjaman', 'id_peminjaman');
+    }
+    public function denda(): HasOne
+    {
+        return $this->hasOne(DendaModel::class, 'id_pengembalian', 'id_pengembalian');
     }
 }

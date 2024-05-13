@@ -16,7 +16,7 @@ class DendaModel extends Model
     protected $fillable = ['id_pengembalian', 'keterangan'];
     // protected $guarded = ['id_transaksi'];
 
-    public function peminjaman(): BelongsTo
+    public function pengembalian(): BelongsTo
     {
         return $this->belongsTo(PengembalianModel::class, 'id_pengembalian', 'id_pengembalian');
     }

@@ -97,6 +97,21 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="tgl_tenggat" class="col-sm-2 col-form-label">Tanggal Tenggat</label>
+                    <div class="col-sm-10">
+                        <input type="date" name="tgl_tenggat"
+                            class="form-control @error('tgl_tenggat')
+                        is-invalid
+                    @enderror"
+                            id="tgl_tenggat" placeholder="Tanggal Tenggat" value="{{ old('tgl_tenggat') }}">
+                        @error('tgl_tenggat')
+                            <div class="invalid-feedback" role="alert">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="jumlah" class="col-sm-2 col-form-label">Jumlah</label>
                     <div class="col-sm-10">
                         <input type="text" name="jumlah"

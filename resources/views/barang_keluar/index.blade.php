@@ -7,9 +7,9 @@
             href="{{ url('barang/create') }}"><strong>Tambah</strong></a> --}}
 
 
-        <a href="{{ url('barang_masuk/create') }}" class="btn  btn-large btn-primary mt-1 float-right fw-bold fs-5">
+        {{-- <a href="{{ url('barang_masuk/create') }}" class="btn  btn-large btn-primary mt-1 float-right fw-bold fs-5">
             <strong>Tambah Data</strong>
-        </a>
+        </a> --}}
         <div class="row">
             <label class="col-1 control-label col-form-label">Filter:</label>
             <div class="col-3">

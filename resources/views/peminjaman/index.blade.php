@@ -59,6 +59,7 @@
                     <th scope="col">Tanggal Tenggat</th>
                     <th scope="col">Jumlah</th>
                     <th scope="col">Aksi</th>
+                    <th scope="col">Status</th>
                 </tr>
             </thead>
         </table>
@@ -109,6 +110,45 @@
                     deleteD.fire({
                         title: "Dibatalkan",
                         text: "File anda masih aman",
+                        icon: "error"
+                    });
+                }
+            });
+        };
+        function kembaliBarang() {
+            event.preventDefault();
+            var form = event.target.form;
+            console.log(form);
+            const deleteD = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success ml-2",
+                    cancelButton: "btn btn-danger"
+                },
+                buttonsStyling: false
+            });
+            deleteD.fire({
+                title: "Pengembalian barang",
+                text: "apakah barang sudah di kembalikan?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya",
+                cancelButtonText: "Tidak",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                    // deleteD.fire({
+                    //     title: "Terhapus!",
+                    //     text: "Data anda berhasil di hapus.",
+                    //     icon: "success"
+                    // });
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    deleteD.fire({
+                        title: "Dibatalkan",
+                        text: "Barang belum dikembalikan",
                         icon: "error"
                     });
                 }
@@ -167,6 +207,11 @@
                     searchable: true // searchable: true, jika ingin kolom ini bisa dicari
                 }, {
                     data: "aksi",
+                    className: "",
+                    orderable: false, // orderable: true, jika ingin kolom ini bisa diurutkan
+                    searchable: false // searchable: true, jika ingin kolom ini bisa dicari
+                }, {
+                    data: "status",
                     className: "",
                     orderable: false, // orderable: true, jika ingin kolom ini bisa diurutkan
                     searchable: false // searchable: true, jika ingin kolom ini bisa dicari
