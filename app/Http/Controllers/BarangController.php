@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BarangExport;
 use App\Models\BarangModel;
 use App\Models\TransaksiModel;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -33,6 +35,7 @@ class BarangController extends Controller
 
         return view('barang.index', ['breadcumb' => $breadcumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
+    
     public function list(Request $request)
     {
         // $users = BarangModel::all();

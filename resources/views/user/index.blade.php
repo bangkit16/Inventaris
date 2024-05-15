@@ -2,7 +2,7 @@
 @section('content')
     <div class="container-fluid">
         {{-- <div class="d-flex"> --}}
-        <h4>Daftar Barang yang terdaftar dalam sistem</h4><br>
+        <h4>Daftar User yang terdaftar dalam sistem</h4><br>
         {{-- <a class="btn btn-large btn-primary mt-1 float-right fw-bold fs-5"
             href="{{ url('user/create') }}"><strong>Tambah</strong></a> --}}
 

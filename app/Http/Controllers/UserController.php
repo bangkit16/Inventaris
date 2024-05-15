@@ -18,7 +18,7 @@ class UserController extends Controller
             'list' => ['Home', 'User']
         ];
         $page = (object) [
-            'title' => 'Daftar User yang terdaftar dalam sistem'
+            'title' => 'Daftar user yang terdaftar dalam sistem'
         ];
         $level = LevelModel::all();
 

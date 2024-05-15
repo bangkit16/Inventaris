@@ -52,6 +52,14 @@
                     <p>Dashboard</p>
                 </a>
             </li>
+            @if (auth()->user()->id_level == 1)
+                <li class="nav-item">
+                    <a href="{{ url('/pelaporan') }}" class="nav-link  {{ $activeMenu == 'pelaporan' ? 'active' : '' }} ">
+                        <i class="nav-icon fas fa-print"></i>
+                        <p>Pelaporan</p>
+                    </a>
+                </li>
+            @endif
             <li class="nav-header">Data Pengguna</li>
 
             {{-- <li class="nav-item">
@@ -60,12 +68,15 @@
                     <p>Level User</p>
                 </a>
             </li> --}}
+            @if (auth()->user()->id_level == 1)
             <li class="nav-item">
                 <a href="{{ url('/user') }}" class="nav-link {{ $activeMenu == 'user' ? 'active' : '' }}">
                     <i class="nav-icon far fa-user"></i>
                     <p>Data User</p>
                 </a>
             </li>
+            @endif
+            @if (auth()->user()->id_level == 2)
             <li class="nav-item">
                 <a href="{{ url('/mahasiswa') }}" class="nav-link {{ $activeMenu == 'mahasiswa' ? 'active' : '' }}">
                     <i class="nav-icon far fa-users"></i>
@@ -114,6 +125,7 @@
                     <p>Transaksi Denda</p>
                 </a>
             </li>
+            @endif
             <hr class="bg-white border-white " style="height: 1px" />
             <li class="nav-item d-flex justify-content-end">
                 <a href="{{ url('/logout') }}" class="nav-link ">

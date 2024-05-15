@@ -7,6 +7,7 @@ use App\Models\DendaModel;
 use App\Models\MahasiswaModel;
 use App\Models\PeminjamanModel;
 use App\Models\PengembalianModel;
+use App\Models\TransaksiModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -137,6 +138,7 @@ class PeminjamanController extends Controller
         $validated['id_user'] = auth()->user()->id_user;
         // $validated['password'] = bcrypt($validated['password']);
         PeminjamanModel::create($validated);
+        
 
         Alert::success('Ditambahkan', 'Data peminjaman berhasil di tambahkan');
         // } catch (\Throwable $th) {
@@ -147,31 +149,7 @@ class PeminjamanController extends Controller
         // ];
         // }
         return redirect('/peminjaman')->with('success', 'Data peminjaman berhasil disimpan');
-        // if (!$validated) {
-        //     return response()->json(['success' => false, 'message' => 'error'], 422);
-        // }
-
-
-        //     return [
-        //         "error" => "asdadsasdadsasdadsa",
-        //         "success" => false
-        //     ];
-        // }
-        // dd($request);
-
-        // die("asdasd");
-
-
-
-        // // dd($request);
-
-
-        // PeminjamanModel::create([
-        //     'username' => $request->username,
-        //     'nama' => $request->nama,
-        //     'password' => bcrypt($request->password),
-        //     'level_id' => $request->level_id
-        // ]);
+     
 
     }
 

@@ -35,4 +35,22 @@ class HomeController extends Controller
         ]);
         // return view('welcome');
     }
+    public function pelaporan()
+    {
+        $breadcumb = (object) [
+            'title' => 'Pelaporan',
+            'list' => ['Home', 'Pelaporan']
+        ];
+
+        
+
+
+        $activeMenu = 'pelaporan';
+
+        return view('pelaporan.index', [
+            'breadcumb' => $breadcumb, 
+            'activeMenu' => $activeMenu
+        ]);
+        // return view('welcome');
+    }
 }
