@@ -25,8 +25,8 @@
         <div class="d-flex flex-row bd-highlight mb-3 justify-content-end ">
             <a style="font-weight: 600" href="{{ url('/peminjaman/create') }}" type="a"
                 class="btn btn-primary mr-auto">Pinjam Barang</a>
-            <a style="font-weight: 600" href="{{ url('/barang/cetak') }}" type="a"
-                class="btn btn-warning ml-auto">Cetak Excel</a>
+            {{-- <a style="font-weight: 600" href="{{ url('/barang/cetak') }}" type="a"
+                class="btn btn-warning ml-auto">Cetak Excel</a> --}}
             <button style="font-weight: 600" type="button" class="btn btn-success mr-2" data-bs-toggle="modal"
                 data-bs-target="#modalBarangMasuk">Barang Masuk</button>
             <button style="font-weight: 600" type="button" class="btn btn-danger" data-bs-toggle="modal"
