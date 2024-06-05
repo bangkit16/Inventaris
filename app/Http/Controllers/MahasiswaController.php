@@ -13,11 +13,11 @@ class MahasiswaController extends Controller
     public function index()
     {
         $breadcumb = (object) [
-            'title' => 'Daftar mahasiswa',
-            'list' => ['Home', 'mahasiswa']
+            'title' => 'Daftar Peminjam',
+            'list' => ['Home', 'Peminjam']
         ];
         $page = (object) [
-            'title' => 'Daftar mahasiswa yang terdaftar dalam sistem'
+            'title' => 'Daftar Peminjam yang terdaftar dalam sistem'
         ];
         // $level = LevelModel::all();
 
@@ -92,7 +92,7 @@ class MahasiswaController extends Controller
         // $validated['password'] = bcrypt($validated['password']);
         MahasiswaModel::create($validated);
 
-        Alert::success('Ditambahkan', 'Data mahasiswa berhasil di tambahkan');
+        Alert::success('Ditambahkan', 'Data peminjam berhasil di tambahkan');
         // } catch (\Throwable $th) {
         // return response()->json(['success' => false, 'message' => 'error'], 422);
         // return [
@@ -100,7 +100,7 @@ class MahasiswaController extends Controller
         //     "success" => true,
         // ];
         // }
-        return redirect('/mahasiswa')->with('success', 'Data mahasiswa berhasil disimpan');
+        return redirect('/mahasiswa')->with('success', 'Data peminjam berhasil disimpan');
         // if (!$validated) {
         //     return response()->json(['success' => false, 'message' => 'error'], 422);
         // }
@@ -134,12 +134,12 @@ class MahasiswaController extends Controller
         $mahasiswa = MahasiswaModel::find($id);
 
         $breadcumb = (object)[
-            'title' => 'Detail mahasiswa',
-            'list' => ['Home', 'mahasiswa', 'Detail']
+            'title' => 'Detail Peminjam',
+            'list' => ['Home', 'Peminjam', 'Detail']
         ];
 
         $page = (object)[
-            'title' => 'Detail mahasiswa'
+            'title' => 'Detail Peminjam'
         ];
 
         $activeMenu = 'mahasiswa'; // set menu yang aktif
@@ -157,12 +157,12 @@ class MahasiswaController extends Controller
         // $level = LevelModel::all();
 
         $breadcumb = (object)[
-            'title' => 'Edit mahasiswa',
-            'list' => ['Home', 'mahasiswa', 'Edit']
+            'title' => 'Edit Peminjam',
+            'list' => ['Home', 'Peminjam', 'Edit']
         ];
 
         $page = (object)[
-            'title' => 'Edit mahasiswa'
+            'title' => 'Edit Peminjam'
         ];
 
         $activeMenu = 'mahasiswa';
@@ -179,6 +179,7 @@ class MahasiswaController extends Controller
 
     public function update(Request $request, string $id)
     {
+        // dd($request);
         $validated = $request->validate([
             // 'username' => 'required|unique:m_user,username,' . $id . ',id_user',
             // // 'nama_user' => 'required|unique:m_user,nama_user , ' . $id . ',id_user',
@@ -211,19 +212,19 @@ class MahasiswaController extends Controller
         // confirmDelete($title, $text);
         $check = MahasiswaModel::find($id);
         if (!$check) {
-            Alert::error('Error', 'Data mahasiswa tidak ditemukan');
-            return redirect('/mahasiswa')->with('error', 'Data mahasiswa tidak ditemukan');
+            Alert::error('Error', 'Data peminjam tidak ditemukan');
+            return redirect('/mahasiswa')->with('error', 'Data peminjam tidak ditemukan');
         }
         try {
             MahasiswaModel::destroy($id);
 
-            Alert::success('Terhapus', 'Data mahasiswa berhasil di hapus');
+            Alert::success('Terhapus', 'Data peminjam berhasil di hapus');
 
-            return redirect('/mahasiswa')->with('success', 'Data mahasiswa berhasil dihapus');
+            return redirect('/mahasiswa')->with('success', 'Data peminjam berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
 
-            Alert::error('Error', 'Data mahasiswa gagal dihapus karena terdapat tabel lain yang terkait dengan data ini');
-            return redirect('/mahasiswa')->with('error', 'Data mahasiswa gagal dihapus karena terdapat tabel lain yang terkait dengan data ini');
+            Alert::error('Error', 'Data peminjam gagal dihapus karena terdapat tabel lain yang terkait dengan data ini');
+            return redirect('/mahasiswa')->with('error', 'Data peminjam gagal dihapus karena terdapat tabel lain yang terkait dengan data ini');
         }
     }
 }

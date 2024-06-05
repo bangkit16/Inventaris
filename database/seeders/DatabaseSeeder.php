@@ -42,10 +42,17 @@ class DatabaseSeeder extends Seeder
             'id_level' => 1,
             'password' => '$2a$12$ADwIzkRUWW9DGkdctyxNtO3VYOG9KamKMBmGbg.joYGNwJAtb69vi',
         ]);
+        UserModel::create([
+            'nama' => 'Lailatul ',
+            'username' => 'vicky79',
+            'nip' => fake()->nik(),
+            'id_level' => 2,
+            'password' => '$2a$12$ADwIzkRUWW9DGkdctyxNtO3VYOG9KamKMBmGbg.joYGNwJAtb69vi',
+        ]);
         UserModel::factory(4)->create();
         BarangModel::factory(15)->create();
         MahasiswaModel::factory(15)->create();
-        // TransaksiModel::factory(100)->create();
+        TransaksiModel::factory(100)->create();
         PeminjamanModel::factory(20)->create();
         PengembalianModel::factory(10)->create();
         // DendaModel::factory(5)->create();

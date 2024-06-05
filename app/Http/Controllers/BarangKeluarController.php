@@ -159,8 +159,8 @@ class BarangKeluarController extends Controller
         $barang = BarangModel::all();
 
         $breadcumb = (object)[
-            'title' => 'Edit Barang eluar',
-            'list' => ['Home', 'Barang eluar', 'Edit']
+            'title' => 'Edit Barang Keluar',
+            'list' => ['Home', 'Barang Keluar', 'Edit']
         ];
 
         $page = (object)[
@@ -216,7 +216,7 @@ class BarangKeluarController extends Controller
         //     'level_id' => $request->level_id
         // ]);
 
-        return redirect('/barang')->with('success', 'Data berhasil diubah');
+        return redirect('/barang_keluar')->with('success', 'Data berhasil diubah');
     }
     public function destroy(string $id)
     {
@@ -227,7 +227,7 @@ class BarangKeluarController extends Controller
         $check = BarangModel::find($id);
         if (!$check) {
             Alert::error('Error', 'Data barang tidak ditemukan');
-            return redirect('/barang')->with('error', 'Data user tidak ditemukan');
+            return redirect('/barang_keluar')->with('error', 'Data user tidak ditemukan');
         }
         try {
             $keluar = TransaksiModel::find($id)->barang_keluar;
@@ -240,11 +240,11 @@ class BarangKeluarController extends Controller
 
             Alert::success('Terhapus', 'Data Barang berhasil di hapus');
 
-            return redirect('/barang')->with('success', 'Data barang berhasil dihapus');
+            return redirect('/barang_keluar')->with('success', 'Data barang berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
 
             Alert::error('Error', 'Data barang gagal dihapus karena terdapat tabel lain yang terkait dengan data ini');
-            return redirect('/barang')->with('error', 'Data barang gagal dihapus karena terdapat tabel lain yang terkait dengan data ini');
+            return redirect('/barang_keluar')->with('error', 'Data barang gagal dihapus karena terdapat tabel lain yang terkait dengan data ini');
         }
     }
 }

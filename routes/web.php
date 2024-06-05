@@ -39,9 +39,7 @@ Route::group(['prefix' => 'pelaporan', 'middleware' => 'isJurusan'], function ()
     Route::get('/barangExcel', [PelaporanController::class, 'barangExcel']);
     Route::get('/barangCsv', [PelaporanController::class, 'barangCsv']);
     Route::get('/transaksiPdf', [PelaporanController::class, 'transaksiPdf']);
-    Route::get('/transaksiPdf', [PelaporanController::class, 'transaksiPdf']);
-    Route::get('/transaksiExcel', [PelaporanController::class, 'transaksiExcel']);
-    Route::get('/transaksiExcel', [PelaporanController::class, 'transaksiExcel']);
+    Route::get('/transaksiCsv', [PelaporanController::class, 'transaksiCsv']);
     Route::get('/transaksiExcel', [PelaporanController::class, 'transaksiExcel']);
     Route::get('/peminjamanCsv', [PelaporanController::class, 'peminjamanCsv']);
     Route::get('/peminjamanPdf', [PelaporanController::class, 'peminjamanPdf']);
@@ -65,7 +63,7 @@ Route::group(['prefix' => 'barang_masuk', 'middleware' => 'isAdmin'], function (
     Route::get('/create', [BarangMasukController::class, 'create']);
     // Route::post('/', [BarangMasukController::class, 'store']);
     // Route::get('/{id}', [BarangMasukController::class, 'show']);
-    // Route::get('/{id}/edit', [BarangMasukController::class, 'edit']);
+    Route::get('/{id}/edit', [BarangMasukController::class, 'edit']);
     Route::put('/{id}', [BarangMasukController::class, 'update']);
     Route::delete('/{id}', [BarangMasukController::class, 'destroy']);
 });

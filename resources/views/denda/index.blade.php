@@ -2,7 +2,7 @@
 @section('content')
     <div class="container-fluid">
         {{-- <div class="d-flex"> --}}
-        <h4>Daftar Barang yang terdaftar dalam sistem</h4><br>
+        <h4>Daftar Transaksi Denda yang terdaftar dalam sistem</h4><br>
         {{-- <a class="btn btn-large btn-primary mt-1 float-right fw-bold fs-5"
             href="{{ url('denda/create') }}"><strong>Tambah</strong></a> --}}
 
@@ -22,7 +22,7 @@
 
                 <tr class="" style="background-color: #D9D9D9;border: 2px solid black">
                     <th scope="col">ID</th>
-                    <th scope="col">Mahasiswa</th>
+                    <th scope="col">Peminjam</th>
                     <th scope="col">Keterangan</th>
                     <th scope="col">Aksi</th>
                 </tr>

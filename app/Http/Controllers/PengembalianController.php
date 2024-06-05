@@ -15,11 +15,11 @@ class PengembalianController extends Controller
     public function index()
     {
         $breadcumb = (object) [
-            'title' => 'Daftar pengembalian',
+            'title' => 'Daftar Transaksi Pengembalian',
             'list' => ['Home', 'pengembalian']
         ];
         $page = (object) [
-            'title' => 'Daftar pengembalian yang terdaftar dalam sistem'
+            'title' => 'Daftar Transaksi pengembalian yang terdaftar dalam sistem'
         ];
         // $barang = BarangModel::all();
         // $user = UserModel::all();

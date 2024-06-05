@@ -185,7 +185,7 @@ class BarangMasukController extends Controller
         //     'level_id' => $request->level_id
         // ]);
 
-        return redirect('/barang')->with('success', 'Data berhasil diubah');
+        return redirect('/barang_masuk')->with('success', 'Data berhasil diubah');
     }
     public function destroy(string $id)
     {
@@ -209,7 +209,7 @@ class BarangMasukController extends Controller
 
             Alert::success('Terhapus', 'Data Barang berhasil di hapus');
 
-            return redirect('/barang')->with('success', 'Data barang berhasil dihapus');
+            return redirect('/barang_masuk')->with('success', 'Data barang berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
 
             Alert::error('Error', 'Data barang gagal dihapus karena terdapat tabel lain yang terkait dengan data ini');

@@ -15,7 +15,7 @@
                     <td>{{ $mahasiswa->id_mahasiswa }}</td>
                 </tr>
                 <tr>
-                    <th>Nama Mahasiswa</th>
+                    <th>Nama Peminjam</th>
                     <td>{{ $mahasiswa->nama }}</td>
                 </tr>
                 <tr>

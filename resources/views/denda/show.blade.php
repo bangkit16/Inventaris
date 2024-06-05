@@ -19,7 +19,7 @@
                     <td>{{ $denda->pengembalian->peminjaman->barang->nama_barang }}</td>
                 </tr>
                 <tr>
-                    <th>Nama Mahasiswa </th>
+                    <th>Nama Peminjam </th>
                     <td>{{ $denda->pengembalian->peminjaman->mahasiswa->nama }}</td>
                 </tr>
                 <tr>

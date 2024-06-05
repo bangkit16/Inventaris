@@ -224,7 +224,7 @@
                         <tr class="" style="background-color: #D9D9D9;border: 2px solid black">
                             <th scope="col">ID</th>
                             <th scope="col">Nama Barang</th>
-                            <th scope="col">Mahasiswa</th>
+                            <th scope="col">Peminjam</th>
                             <th scope="col">Tanggal Tenggat</th>
                             {{-- <th scope="col">Aksi</th> --}}
                         </tr>

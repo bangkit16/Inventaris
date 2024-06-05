@@ -15,7 +15,7 @@ class DendaController extends Controller
     public function index()
     {
         $breadcumb = (object) [
-            'title' => 'Daftar denda',
+            'title' => 'Daftar Transaksi Denda',
             'list' => ['Home', 'denda']
         ];
         $page = (object) [

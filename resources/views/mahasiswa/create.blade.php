@@ -39,14 +39,14 @@
                     </div>
                 </div> --}}
                 <div class="form-group row">
-                    <label for="NIM" class="col-sm-2 col-form-label">NIM</label>
+                    <label for="nim" class="col-sm-2 col-form-label">NIM</label>
                     <div class="col-sm-10">
-                        <input type="text" name="NIM"
-                            class="form-control @error('NIM')
+                        <input type="text" name="nim"
+                            class="form-control @error('nim')
                         is-invalid
                     @enderror"
-                            id="NIM" placeholder="NIM" value="{{ old('NIM') }}">
-                        @error('NIM')
+                            id="nim" placeholder="nim" value="{{ old('nim') }}">
+                        @error('nim')
                             <div class="invalid-feedback" role="alert">
                                 {{ $message }}
                             </div>

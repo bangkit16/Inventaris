@@ -29,7 +29,7 @@
                         <option value="{{ $itemm->id_mahasiswa}}">{{ $itemm->nama }}</option>
                     @endforeach
                 </select>
-                <small class="form-text text-muted">Mahasiswa</small>
+                <small class="form-text text-muted">Peminjam</small>
             </div>
             <div class="col-3">
                 <select class="form-control" id="id_user" name="id_user" required>
@@ -38,7 +38,7 @@
                         <option value="{{ $itemmm->id_user}}">{{ $itemmm->nama }}</option>
                     @endforeach
                 </select>
-                <small class="form-text text-muted">Barang</small>
+                <small class="form-text text-muted">Admin</small>
             </div>
         </div>
 
@@ -53,7 +53,7 @@
                 <tr class="" style="background-color: #D9D9D9;border: 2px solid black">
                     <th scope="col">ID</th>
                     <th scope="col">Nama Barang</th>
-                    <th scope="col">Mahasiswa</th>
+                    <th scope="col">Peminjam</th>
                     <th scope="col">User</th>
                     <th scope="col">Tanggal Pinjam</th>
                     <th scope="col">Tanggal Tenggat</th>

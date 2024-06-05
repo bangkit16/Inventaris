@@ -19,7 +19,7 @@ class PeminjamanController extends Controller
     public function index()
     {
         $breadcumb = (object) [
-            'title' => 'Daftar peminjaman',
+            'title' => 'Daftar Transaksi Peminjaman',
             'list' => ['Home', 'peminjaman']
         ];
         $page = (object) [
@@ -132,7 +132,7 @@ class PeminjamanController extends Controller
             'id_mahasiswa' => 'required',
             'tgl_pinjam' => 'required',
             'tgl_tenggat' => 'required',
-            'jumlah' => 'required',
+            'jumlah' => 'required|numeric',
             // 'password' => 'required|min:5',
         ]);
         $validated['id_user'] = auth()->user()->id_user;
@@ -220,7 +220,7 @@ class PeminjamanController extends Controller
             'id_mahasiswa' => 'required',
             'tgl_pinjam' => 'required',
             'tgl_tenggat' => 'required',
-            'jumlah' => 'required',
+            'jumlah' => 'required|numeric',
             // 'password' => 'nullable|min:5',
         ]);
 

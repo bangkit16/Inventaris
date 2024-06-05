@@ -18,7 +18,22 @@ class TransaksiExport implements FromCollection, WithHeadings, ShouldAutoSize
      */
     public function collection()
     {
-        return TransaksiModel::all();
+        // return TransaksiModel::with('user', 'barang')->select('id_transaksi',  'user.nama', 'barang.nama_barang', 'barang_masuk', 'barang_keluar', 'tgl_transaksi', 'status', 'created_at', 'update_at')->get();
+        return TransaksiModel::join('m_user', 't_transaksi.id_user', '=', 'm_user.id_user')
+            ->join('m_barang', 't_transaksi.id_barang', '=', 'm_barang.id_barang')
+            ->select(
+                'id_transaksi',
+                'm_user.nama as user_nama',
+                'm_barang.nama_barang as nama_barang',
+                'barang_masuk',
+                'barang_keluar',
+                'tgl_transaksi',
+                'status',
+                't_transaksi.created_at',
+                't_transaksi.updated_at'
+            )
+            ->with(['user', 'barang'])
+            ->get();
     }
     public function headings(): array
     {

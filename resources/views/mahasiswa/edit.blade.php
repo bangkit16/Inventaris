@@ -14,17 +14,14 @@
                 </div>
                 <a href="{{ url('mahasiswa') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
             @else
-                <form method="POST" action="{{ url('/mahasiswa/' . $mahasiswa->id_user) }}" class="form-horizontal">
+                <form  action="{{ url('/mahasiswa/' . $mahasiswa->id_mahasiswa) }}" method="POST" class="form-horizontal">
                     @csrf
                     {!! method_field('PUT') !!}
                     <!-- tambahkan baris ini untuk proses edit yang butuh method PUT -->
                     <div class="form-group row">
                         <label for="nama" class="col-sm-2 col-form-label">Nama</label>
                         <div class="col-sm-10">
-                            <input type="text" name="nama"
-                                class="form-control @error('nama')
-                              is-invalid
-                          @enderror"
+                            <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror"
                                 id="nama" placeholder="Nama Mahasiswa" value="{{ old('nama', $mahasiswa->nama) }}">
                             @error('nama')
                                 <div class="invalid-feedback" role="alert">
