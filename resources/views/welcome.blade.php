@@ -22,16 +22,18 @@
             style="font-weight: 600;font-size: 20px;border-radius: 10%;background-color: #E26D00" role="alert">
             Selamat Datang di Sistem Informasi Inventaris !
         </div>
-        <div class="d-flex flex-row bd-highlight mb-3 justify-content-end ">
-            <a style="font-weight: 600" href="{{ url('/peminjaman/create') }}" type="a"
-                class="btn btn-primary mr-auto">Pinjam Barang</a>
-            {{-- <a style="font-weight: 600" href="{{ url('/barang/cetak') }}" type="a"
+        @if (auth()->user()->id_user != 1)
+            <div class="d-flex flex-row bd-highlight mb-3 justify-content-end ">
+                <a style="font-weight: 600" href="{{ url('/peminjaman/create') }}" type="a"
+                    class="btn btn-primary mr-auto">Pinjam Barang</a>
+                {{-- <a style="font-weight: 600" href="{{ url('/barang/cetak') }}" type="a"
                 class="btn btn-warning ml-auto">Cetak Excel</a> --}}
-            <button style="font-weight: 600" type="button" class="btn btn-success mr-2" data-bs-toggle="modal"
-                data-bs-target="#modalBarangMasuk">Barang Masuk</button>
-            <button style="font-weight: 600" type="button" class="btn btn-danger" data-bs-toggle="modal"
-            data-bs-target="#modalBarangKeluar">Barang Keluar</button>
-        </div>
+                <button style="font-weight: 600" type="button" class="btn btn-success mr-2" data-bs-toggle="modal"
+                    data-bs-target="#modalBarangMasuk">Barang Masuk</button>
+                <button style="font-weight: 600" type="button" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#modalBarangKeluar">Barang Keluar</button>
+            </div>
+        @endif
 
         <!-- Button trigger modal -->
         {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalBarangMasuk">
