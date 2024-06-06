@@ -80,7 +80,7 @@
                                         class="form-control @error('stok')
                                                   is-invalid
                                               @enderror"
-                                        id="stok" placeholder="Jumlah" value="{{ old('stok') }}">
+                                        id="stokMasuk" placeholder="Jumlah" value="{{ old('stok') }}">
                                     @error('stok')
                                         <div class="invalid-feedback" role="alert">
                                             {{ $message }}
@@ -139,7 +139,7 @@
                                         class="form-control @error('stok')
                                                   is-invalid
                                               @enderror"
-                                        id="stok" placeholder="Jumlah" value="{{ old('stok') }}">
+                                        id="stokKeluar" placeholder="Jumlah" value="{{ old('stok') }}">
                                     @error('stok')
                                         <div class="invalid-feedback" role="alert">
                                             {{ $message }}

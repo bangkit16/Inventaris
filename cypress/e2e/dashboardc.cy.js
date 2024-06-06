@@ -46,8 +46,8 @@ describe('Priksa Fungsi Data Barang', () => {
     cy.get('#modalBarangMasuk').should('be.visible');
 
     // Fill out and submit the "Barang Masuk" form
-    cy.get('#id_barang_masuk').select('1'); // Adjust the value to match your test data
-    cy.get('input.form-control[placeholder="stok"]').type('10');
+    cy.get('#id_barang_masuk').select('Gergaji'); // Adjust the value to match your test data
+    cy.get('#stokMasuk').type('10');
 
     cy.get('#barangMasuk').submit();
 
@@ -61,8 +61,8 @@ describe('Priksa Fungsi Data Barang', () => {
     cy.get('#modalBarangKeluar').should('be.visible');
 
     // Fill out and submit the "Barang Keluar" form
-    cy.get('#id_barang_keluar').select('1'); // Adjust the value to match your test data
-    cy.get('input[name="stok]').type('5');
+    cy.get('#id_barang_keluar').select('Gergaji'); // Adjust the value to match your test data
+    cy.get('#stokKeluar').type('5');
     cy.get('#barangKeluar').submit();
 
     // Assert that the modal closes after submission

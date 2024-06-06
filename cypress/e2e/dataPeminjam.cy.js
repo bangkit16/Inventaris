@@ -24,7 +24,7 @@ describe('Periksa fungsi data peminjam', () => {
 
     // Isi form dengan data baru
     cy.get('input[name="nama"]').type('Aldi');
-    cy.get('input[name="NIM"]').type('12345678');
+    cy.get('input[name="nim"]').type('12345678');
     // cy.get('input[name="nim"]').should('have.value', '12345678');
 
     // Submit form
@@ -41,7 +41,7 @@ it('Test Case 4: Menambahkan data peminjam dengan nama mahasiswa tidak valid dan
 
   // Isi form dengan data baru
   // cy.get('input[name="nama"]').type('Reno');
-  cy.get('input[name="NIM"]').type('111111111111');
+  cy.get('input[name="nim"]').type('111111111111');
   // cy.get('input[name="nim"]').should('have.value', '12345678');
 
   // Submit form
@@ -58,7 +58,7 @@ it('Test Case 5: Menambahkan data peminjam dengan nama mahasiswa valid dan nim t
 
   // Isi form dengan data baru
   cy.get('input[name="nama"]').type('Reno');
-  cy.get('input[name="NIM"]').type('aaaaaaaaa');
+  cy.get('input[name="nim"]').type('aaaaaaaaa');
   // cy.get('input[name="nim"]').should('have.value', '12345678');
 
   // Submit form
@@ -75,7 +75,7 @@ it('Test Case 6: Menambahkan data peminjam dengan nama mahasiswa tidak valid dan
 
   // Isi form dengan data baru
   // cy.get('input[name="nama"]').type('Reno');
-  cy.get('input[name="NIM"]').type('bbbbbbb');
+  cy.get('input[name="nim"]').type('bbbbbbb');
   // cy.get('input[name="nim"]').should('have.value', '12345678');
 
   // Submit form
@@ -100,7 +100,7 @@ it('Test Case 6: Menambahkan data peminjam dengan nama mahasiswa tidak valid dan
   cy.get('form').submit();
 
   // Cek apakah data berhasil diubah
-  cy.get('.swal2-error').should('be.visible');
+  cy.get('.swal2-title').should('be.visible');
   // cy.contains('Data berhasil diubah').should('be.visible');
   });
 

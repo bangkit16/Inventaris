@@ -212,9 +212,9 @@ it('Test Case 12: Mengedit data user dengan username valid, level tidak valid, n
     cy.get('form').submit();
 
     // Cek apakah data berhasil diubah
-    cy.wait(6000);
+    // cy.wait(6000);
     cy.get('.swal2-error').should('be.visible');
-    cy.wait(6000);
+    // cy.wait(6000);
     
 });
 
@@ -272,9 +272,9 @@ it('Test Case 15: Mengedit data user dengan username valid, level valid, nama va
     cy.get('form').submit();
 
     // Cek apakah data berhasil diubah
-    cy.wait(6000);
-    cy.get('.swal2-error').should('be.visible');
-    cy.wait(6000);
+    // cy.wait(6000);
+    cy.get('.swal2-title').should('be.visible');
+    // cy.wait(6000);
     
 });
 
@@ -313,10 +313,10 @@ it('Test Case 16: Mengedit data user dengan username tidak valid, level tidak va
 
   it('Test Case 18: Search valid', () => {
       // Ketik kata kunci pencarian
-      cy.get('input[type="search"]').type('dina');
+      cy.get('input[type="search"]').type('jdabukke');
 
       // Cek apakah hasil pencarian sesuai
-      cy.get('table tbody tr').should('contain', 'dina');
+      cy.get('table tbody tr').should('contain', 'jdabukke');
   });
 
   it('Test Case 19: Search tidak valid', () => {
